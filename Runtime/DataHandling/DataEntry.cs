@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace oculog
 {
-    public struct DataEntry
+    [Serializable]
+    public class DataEntry
     {
         public string id;
         public string description;
+        public string formattedTimeStamp;
         
         public ELogLevel logLevel;
 
-        private float timeStamp;
+        private float _timeStamp;
 
         /// <summary>
         /// Generates a data entry with the given properties
@@ -24,7 +26,8 @@ namespace oculog
             this.id = id;
             this.description = description;
             this.logLevel = logLevel;
-            this.timeStamp = timeStamp;
+            _timeStamp = timeStamp;
+            formattedTimeStamp = GetTimeStamp();
         }
 
         /// <summary>
@@ -37,8 +40,9 @@ namespace oculog
         {
             this.id = id;
             this.description = description;
-            this.timeStamp = timeStamp;
+            _timeStamp = timeStamp;
             logLevel = ELogLevel.Default;
+            formattedTimeStamp = GetTimeStamp();
         }
 
         /// <summary>
@@ -54,13 +58,12 @@ namespace oculog
                 return result;
             }
             
-            var timeSpan = TimeSpan.FromSeconds(timeStamp);
+            var timeSpan = TimeSpan.FromSeconds(_timeStamp);
             var hours = GetTimeStringValue(timeSpan.Hours);
             var minutes = GetTimeStringValue(timeSpan.Minutes);
             var seconds = GetTimeStringValue(timeSpan.Seconds);
             var milliseconds = GetTimeStringValue(timeSpan.Milliseconds);
 
-            Debug.Log($"T{hours}:{minutes}:{seconds}:{milliseconds}");
             return $"T{hours}:{minutes}:{seconds}:{milliseconds}";
         }
 
@@ -68,6 +71,6 @@ namespace oculog
         /// Gets the timestamp property saved in the data entry
         /// </summary>
         /// <returns>Timestamp in seconds</returns>
-        public float GetTimestampInSeconds() => timeStamp;
+        public float GetTimestampInSeconds() => _timeStamp;
     }
 }

@@ -1,19 +1,23 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace oculog
 {
+    [System.Serializable]
     public class DataContainer
     {
         /// <summary>
         /// Unique ID of the data container
         /// </summary>
-        public string Id { get; private set; }
+        public string Id => id;
 
-        private List<DataEntry> _data;
+        [SerializeField] private string id;
+
+        [SerializeField] private List<DataEntry> _data;
         
         public DataContainer(string id)
         {
-            Id = id;
+            this.id = id;
             _data = new List<DataEntry>();
         }
 

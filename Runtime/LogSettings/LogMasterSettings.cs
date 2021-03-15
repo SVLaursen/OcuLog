@@ -1,25 +1,50 @@
-﻿using oculog.Targeting;
+﻿using System;
+using oculog.Targeting;
 using UnityEngine;
 
 namespace oculog.LogSettings
 {
     [CreateAssetMenu(menuName = "Oculog/LogMaster Settings")]
-    public class LogMasterSettings : LogSettings
+    public class LogMasterSettings : ScriptableObject
     {
-        [SerializeField] private ETargetApi platform;
-        [SerializeField] private ApiTarget targetApiSettings = default;
+        //Basic Must Have Settings
+        public ETargetApi platform;
+        public OculusSettings oculusSettings;
+        public OpenVRSettings openVRSettings;
         
+        //Application Tracking Settings
+        public bool trackFps;
+        public int fpsWarningLimit = 50;
+        public int fpsErrorLimit = 40; //If the fps is below this limit then it is failing
+        
+        //Saving And Exporting Settings
         public EExportType exportType;
+        public bool useCustomFolder;
+        public string customFolderName;
 
-        
-        public override void Init()
+        public Action<DataEntry> OnLogFPS;
+
+        private float _fpsTime;
+
+        public void Tick()
         {
-            throw new System.NotImplementedException();
+            if(trackFps)
+                LogFps();
         }
 
-        public override void Tick()
+        private void LogFps()
         {
-            throw new System.NotImplementedException();
+            _fpsTime += (Time.unscaledDeltaTime - _fpsTime) * 0.1f;
+            var fps = Mathf.FloorToInt(1.0f / _fpsTime);
+            var logLevel = ELogLevel.Default;
+
+            if (fps < fpsWarningLimit)
+                logLevel = ELogLevel.Warning;
+            else if (fps < fpsErrorLimit)
+                logLevel = ELogLevel.Error;
+            
+            var entry = new DataEntry("fps",fps.ToString(), Time.time, logLevel);
+            OnLogFPS.Invoke(entry);
         }
     }
 }

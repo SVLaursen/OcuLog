@@ -1,18 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace oculog.LogSettings
 {
     [CreateAssetMenu(menuName = "Oculog/Static Logger Settings")]
     public class StaticLoggerSettings : LogSettings
     {
-        public override void Init()
+        public bool trackPosition;
+        public bool trackScale;
+        public bool trackRotation;
+        
+        public override void Init(GameObject parent)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Tick()
-        {
-            throw new System.NotImplementedException();
+            LogIfEnabled(trackPosition, parent.transform.position, "Position");
+            LogIfEnabled(trackScale, parent.transform.localScale, "Scale");
+            LogIfEnabled(trackRotation, parent.transform.rotation, "Rotation");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace oculog.LogSettings
@@ -10,8 +11,16 @@ namespace oculog.LogSettings
 
         public Action<DataEntry> OnEmit;
 
-        public abstract void Init();
+        public abstract void Init(GameObject parent);
 
-        public abstract void Tick();
+        public virtual void Tick(){}
+
+        protected void LogIfEnabled<T>(bool enabled, T value, string propertyName)
+        {
+            if (!enabled) return;
+
+            var entry = new DataEntry($"{logId}-{propertyName}", value.ToString(), Time.time);
+            OnEmit.Invoke(entry);
+        }
     }
 }

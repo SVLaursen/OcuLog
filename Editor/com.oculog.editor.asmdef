@@ -1,6 +1,6 @@
 {
     "name": "com.oculog.editor",
-    "rootNamespace": "oculog.editor",
+    "rootNamespace": "",
     "references": [
         "GUID:c66a1e8976cfe7a4988c9668a8ecbf9c"
     ],

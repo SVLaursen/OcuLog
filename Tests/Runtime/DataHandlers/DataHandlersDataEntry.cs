@@ -12,12 +12,12 @@ public class DataHandlersDataEntry
     {
         var entry = new DataEntry("unit-test", "this is a test", 1000);
         var id = entry.id;
-        var description = entry.description;
+        var value = entry.value;
         var logLevel = entry.logLevel;
         
         Assert.IsNotNull(entry);
         Assert.AreEqual("unit-test", id);
-        Assert.AreEqual("this is a test", description);
+        Assert.AreEqual("this is a test", value);
         Assert.AreEqual(ELogLevel.Default, logLevel);
     }
 
@@ -26,12 +26,12 @@ public class DataHandlersDataEntry
     {
         var entry = new DataEntry("unit-test", "this is a test", 1000, ELogLevel.Error);
         var id = entry.id;
-        var description = entry.description;
+        var value = entry.value;
         var logLevel = entry.logLevel;
         
         Assert.IsNotNull(entry);
         Assert.AreEqual("unit-test", id);
-        Assert.AreEqual("this is a test", description);
+        Assert.AreEqual("this is a test", value);
         Assert.AreEqual(ELogLevel.Error, logLevel);
     }
 

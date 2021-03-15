@@ -7,7 +7,7 @@ namespace oculog
     public class DataEntry
     {
         public string id;
-        public string description;
+        public string value;
         public string formattedTimeStamp;
         
         public ELogLevel logLevel;
@@ -18,13 +18,13 @@ namespace oculog
         /// Generates a data entry with the given properties
         /// </summary>
         /// <param name="id">Used by the data container that the entry will be stored in</param>
-        /// <param name="description">Description of entry</param>
+        /// <param name="value">Description of entry</param>
         /// <param name="timeStamp">The time at which the entry was logged in application runtime</param>
         /// <param name="logLevel">Message level</param>
-        public DataEntry(string id, string description, float timeStamp, ELogLevel logLevel)
+        public DataEntry(string id, string value, float timeStamp, ELogLevel logLevel)
         {
             this.id = id;
-            this.description = description;
+            this.value = value;
             this.logLevel = logLevel;
             _timeStamp = timeStamp;
             formattedTimeStamp = GetTimeStamp();
@@ -34,12 +34,12 @@ namespace oculog
         /// Generates a data entry with the given properties
         /// </summary>
         /// <param name="id">Used by the data container that the entry will be stored in</param>
-        /// <param name="description">Description of entry</param>
+        /// <param name="value">Description of entry</param>
         /// <param name="timeStamp">The time at which the entry was logged in application runtime</param>
-        public DataEntry(string id, string description, float timeStamp)
+        public DataEntry(string id, string value, float timeStamp)
         {
             this.id = id;
-            this.description = description;
+            this.value = value;
             _timeStamp = timeStamp;
             logLevel = ELogLevel.Default;
             formattedTimeStamp = GetTimeStamp();

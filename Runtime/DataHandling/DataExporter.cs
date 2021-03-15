@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -118,12 +119,12 @@ namespace oculog
 
         private static string WriteHeaderForCSVFile(DataEntry entry)
         {
-            return "id;description;timestamp;loglevel";
+            return "id;value;timestamp;loglevel";
         }
 
         private static string WriteEntryToCSVFormat(DataEntry entry)
         {
-            return $"{entry.id};{entry.description};{entry.formattedTimeStamp};{entry.logLevel}";
+            return $"{entry.id};{entry.value};{entry.formattedTimeStamp};{entry.logLevel.ToString()}";
         }
     }
 }

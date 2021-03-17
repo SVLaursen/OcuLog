@@ -11,5 +11,10 @@ namespace oculog.Targeting
         {
             throw new System.NotImplementedException();
         }
+
+        public override void Tick()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

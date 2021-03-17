@@ -1,14 +1,16 @@
 {
-	"name": "com.oculog",
-	"version": "1.0.0",
-	"displayName": "OcuLog",
-	"unity": "2020.2",
-	"author": "",
-	"dependencies":{
-	},
-	"repository":{
-		"type": "git",
-		"url": "https://github.com/VRMON/UnityVRLogger"
-	},
-	"description": "Data logging package for Unity projects"
+  "name": "com.oculog",
+  "version": "1.0.0",
+  "displayName": "OcuLog",
+  "unity": "2020.1",
+  "author": "",
+  "dependencies": {
+    "com.unity.xr.oculus": "1.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VRMON/UnityVRLogger"
+  },
+  "description": "Data logging package for Unity projects",
+  "type": "tool"
 }

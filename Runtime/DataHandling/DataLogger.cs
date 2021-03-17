@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace oculog
@@ -59,6 +60,12 @@ namespace oculog
             
             //If the id does not exist we throw an error since this shouldn't happen
             throw new ArgumentException("DataLogger has no container with the given id");
+        }
+
+        public static List<DataContainer> GetDataContainers()
+        {
+            var result = _containers.Values.ToList();
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace oculog.Targeting
 {
@@ -6,5 +7,12 @@ namespace oculog.Targeting
     public abstract class ApiTarget
     {
         public abstract void Init();
+
+        public abstract void Tick();
+
+        public virtual IEnumerator TrackEveryInterval()
+        {
+            yield return null;
+        }
     }
 }

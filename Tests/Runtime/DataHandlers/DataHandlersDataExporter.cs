@@ -11,7 +11,7 @@ public class DataHandlersDataExporter
     [Test]
     public void ExportDataInCSVFormat()
     {
-        var expectedFilePath = Application.persistentDataPath + @"\oculog\case_0\unit-test.csv";
+        var expectedFilePath = Application.persistentDataPath + "/oculog/case_0/unit-test.csv";
         DataLogger.Init();
         
         var entry = new DataEntry("unit-test", "this is a test", 1000);
@@ -26,14 +26,14 @@ public class DataHandlersDataExporter
         if (fileCreated)
             File.Delete(expectedFilePath);
         
-        if(Directory.Exists(Application.persistentDataPath + @"\oculog\case_0"))
-            Directory.Delete(Application.persistentDataPath + @"\oculog\case_0");
+        if(Directory.Exists(Application.persistentDataPath + "/oculog/case_0"))
+            Directory.Delete(Application.persistentDataPath + "/oculog/case_0");
     }
 
     [Test]
     public void ExportDataInCSVFormatWithFolderPath()
     {
-        var expectedFilePath = Application.persistentDataPath + @"\custom\case_0\unit-test.csv";
+        var expectedFilePath = Application.persistentDataPath + "/custom/case_0/unit-test.csv";
         DataLogger.Init();
         
         var entry = new DataEntry("unit-test", "this is a test", 1000);
@@ -48,8 +48,8 @@ public class DataHandlersDataExporter
         if (fileCreated)
             File.Delete(expectedFilePath);
         
-        if(Directory.Exists(Application.persistentDataPath + @"\custom\case_0"))
-            Directory.Delete(Application.persistentDataPath + @"\custom\case_0");
+        if(Directory.Exists(Application.persistentDataPath + "/custom/case_0"))
+            Directory.Delete(Application.persistentDataPath + "/custom/case_0");
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class DataHandlersDataExporter
 
         for (var i = 0; i < 100; i++)
         {
-            var expectedFilePath = Application.persistentDataPath + @$"\oculog\case_0\unit-test-{i}.csv";
+            var expectedFilePath = Application.persistentDataPath + $"/oculog/case_0/unit-test-{i}.csv";
             var fileExists = File.Exists(expectedFilePath);
 
             Assert.AreEqual(true, fileExists);
@@ -91,7 +91,7 @@ public class DataHandlersDataExporter
     [Test]
     public void ExportDataInJSONFormat()
     {
-        var expectedFilePath = Application.persistentDataPath + @"\oculog\oculog_entry_0.json";
+        var expectedFilePath = Application.persistentDataPath + "/oculog/oculog_entry_0.json";
         DataLogger.Init();
         
         var entry = new DataEntry("unit-test", "this is a test", 1000);
@@ -110,7 +110,7 @@ public class DataHandlersDataExporter
     [Test]
     public void ExportDataInJSONFormatWithFolderPath()
     {
-        var expectedFilePath = Application.persistentDataPath + @"\custom\oculog_entry_0.json";
+        var expectedFilePath = Application.persistentDataPath + "/custom/oculog_entry_0.json";
         DataLogger.Init();
         
         var entry = new DataEntry("unit-test", "this is a test", 1000);
@@ -147,7 +147,7 @@ public class DataHandlersDataExporter
         
         DataExporter.ExportData(EExportType.JSON,containers);
         
-        var expectedFilePath = Application.persistentDataPath + @$"\oculog\oculog_entry_0.json";
+        var expectedFilePath = Application.persistentDataPath + $"/oculog/oculog_entry_0.json";
         var fileExists = File.Exists(expectedFilePath);
         Assert.AreEqual(true, fileExists);
         

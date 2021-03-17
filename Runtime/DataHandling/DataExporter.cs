@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using oculog.Core;
 using UnityEngine;
 
 namespace oculog
@@ -30,7 +32,7 @@ namespace oculog
         /// <param name="folderName">Custom folder path</param>
         public static void ExportData(EExportType exportType, List<DataContainer> data, string folderName)
         {
-            var filePath = _dataPath + @$"\{folderName}";
+            var filePath = _dataPath + $"/{folderName}";
             switch (exportType)
             {
                 case EExportType.CSV:
@@ -68,15 +70,20 @@ namespace oculog
 
             for (var i = 0; i < 100; i++)
             {
-                if (!File.Exists(filePath + @$"\oculog_entry_{i}{JSON_SUFFIX}"))
+                if (!File.Exists(filePath + $"/oculog_entry_{i}{JSON_SUFFIX}"))
                 {
                     entryIndex = i;
                     break;
                 }
             }
             
-            var fileName = @$"\oculog_entry_{entryIndex}{JSON_SUFFIX}";
+            var fileName = $"/oculog_entry_{entryIndex}{JSON_SUFFIX}";
             File.WriteAllText(filePath + fileName, jsonData);
+            
+#if UNITY_EDITOR
+            PlayStateNotifier.ShouldNotExit = false;
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
 
         private static void ExportCSV(string filePath, List<DataContainer> data)
@@ -89,8 +96,8 @@ namespace oculog
             
             for (var i = 0; i < 100; i++)
             {
-                if (Directory.Exists(@$"{filePath}\case_{i}")) continue;
-                Directory.CreateDirectory(@$"{filePath}\case_{i}");
+                if (Directory.Exists($"{filePath}/case_{i}")) continue;
+                Directory.CreateDirectory($"{filePath}/case_{i}");
                 caseNumber = i;
                 break;
             }
@@ -112,9 +119,25 @@ namespace oculog
                 }
 
                 //Save File
-                var savePath = filePath + @$"\case_{caseNumber}\{container.Id}{CSV_SUFFIX}";
+                var savePath = filePath + $"/case_{caseNumber}/{container.Id}{CSV_SUFFIX}";
+
+                /*using (FileStream fs = File.Create(savePath))
+                {
+                    foreach(var line in formattedData)
+                    {
+                        var writeBytes = Encoding.UTF8.GetBytes(line);
+                        fs.Write(writeBytes, 0, line.Length);
+                    }
+                    fs.Close();
+                }*/
+                
                 File.WriteAllLines(savePath, formattedData);
             }
+            
+#if UNITY_EDITOR
+            PlayStateNotifier.ShouldNotExit = false;
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
 
         private static string WriteHeaderForCSVFile(DataEntry entry)

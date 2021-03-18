@@ -5,54 +5,60 @@ using UnityEngine;
 
 namespace oculog.Core
 {
-    public class LogMaster : MonoBehaviour
+    /*
+     * This part of the partial includes the base properties and inspector values.
+     * All global variables for the class must be setup in this part of the partial.
+     */
+    public partial class LogMaster : MonoBehaviour
     {
+        //General Settings (Fps tracking, etc.)
         [SerializeField] private LogMasterSettings settings;
+        
+        //Unity XR Specifics
+        public bool useXR;
+        
+        //Guardian
+        public bool enableGuardian;
+        public int guardianIterations;
+        public float guardianHeight;
+        
+        //Button Inputs
+        public bool trackButtonInputs;
 
-        private void OnEnable()
-        {
-            DataLogger.Init();
-            
-            settings.Init();
-            settings.OnLogFPS += DataLogger.LogEntry;
+        public bool trackLeftTrigger;
+        public bool trackRightTrigger;
 
-            if (settings.trackInIntervals)
-                StartCoroutine(settings.TrackEveryInterval());
-            
-#if UNITY_EDITOR
-            PlayStateNotifier.ShouldNotExit = true;
-            PlayStateNotifier.editorExitEvents += PerformExport;
-#elif UNITY_ANDROID
-            Application.focusChanged += PerformExportAndroid;
-#elif UNITY_STANDALONE
-            Application.quitting += PerformExport;
-#endif
-        }
+        public bool trackLeftGrip;
+        public bool trackRightGrip;
 
-        private void OnDisable() => settings.OnLogFPS -= DataLogger.LogEntry;
+        public bool trackLeftFaceButtons;
+        public bool trackRightFaceButtons;
 
-        private void Update() => settings.Tick();
+        public bool trackLeftJoystick;
+        public bool trackRightJoystick;
 
-        private void PerformExportAndroid(bool isFocused)
-        {
-            if(isFocused == false) PerformExport();
-        }
+        //Controllers
+        public bool trackControllers;
 
-        private void PerformExport()
-        {
-            if (settings.exportType == EExportType.None)
-            {
-#if UNITY_EDITOR
-                PlayStateNotifier.ShouldNotExit = false;
-#endif
-                return;
-            }
-            
-            var containers = DataLogger.GetDataContainers();
-            if(settings.useCustomFolder)
-                DataExporter.ExportData(settings.exportType, containers, settings.customFolderName);
-            else 
-                DataExporter.ExportData(settings.exportType, containers);
-        }
+        public bool useIntervalController;
+        public float controllerInterval;
+
+        public bool trackLeftControllerRotation;
+        public bool trackRightControllerRotation;
+
+        public bool trackLeftControllerPosition;
+        public bool trackRightControllerPosition;
+
+        //HMD
+        public bool trackHmd;
+
+        public bool useIntervalHmd;
+        public float hmdInterval;
+
+        public bool trackHmdPosition;
+        public bool trackHmdRotation;
+
+        //Actions
+        private Action _onTickLog;
     }
 }

@@ -24,9 +24,6 @@ namespace oculog.editor
         {
             serializedObject.Update();
             
-            //Draw the Platform Selection Area
-            DrawPlatformSpecificFields();
-            
             //Draw the Application Tracking Area
             DrawApplicationTrackingFields();
             
@@ -34,33 +31,6 @@ namespace oculog.editor
             DrawExportingFields();
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private void DrawPlatformSpecificFields()
-        {
-            EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.LabelField("Platform Settings", EditorStyles.boldLabel); 
-            EditorGUILayout.EndVertical();
-
-            _target.platform = (ETargetApi) EditorGUILayout.EnumPopup("Target Platform", _target.platform);
-            
-            EditorGUILayout.Separator();
-            
-            switch (_target.platform)
-            {
-                case ETargetApi.Oculus:
-                    var oculus = serializedObject.FindProperty("oculusSettings").GetEnumerator();
-                    DrawAPISettings(oculus, "Oculus");
-                    break;
-                case ETargetApi.OpenVR:
-                    var openvr = serializedObject.FindProperty("openVRSettings").GetEnumerator();
-                    DrawAPISettings(openvr, "OpenVR");
-                    break;
-                case ETargetApi.None:
-                    EditorGUILayout.HelpBox("No API has been targeted and Oculog will therefore only " +
-                                            "track using the default logging components", MessageType.Info);
-                    break;
-            }
         }
 
         private void DrawApplicationTrackingFields()
@@ -72,11 +42,18 @@ namespace oculog.editor
             EditorGUILayout.EndVertical();
 
             _target.trackFps = EditorGUILayout.BeginToggleGroup("Toggle FPS Tracking", _target.trackFps);
-
+            
+            EditorGUI.indentLevel++;
             _target.trackInIntervals = EditorGUILayout.BeginToggleGroup("Track Every Frame", _target.trackInIntervals);
+            EditorGUI.indentLevel++;
             _target.trackingInterval = EditorGUILayout.Slider("Tracking Interval",_target.trackingInterval, 0.0f, 1.0f);
-            EditorGUILayout.EndToggleGroup();
 
+            EditorGUI.indentLevel--;
+            EditorGUILayout.EndToggleGroup();
+            EditorGUI.indentLevel--;
+            
+            EditorGUILayout.Separator();
+            
             _target.fpsWarningLimit = EditorGUILayout.IntField("Warning Limit", _target.fpsWarningLimit);
             _target.fpsErrorLimit = EditorGUILayout.IntField("Error Limit", _target.fpsErrorLimit);
             
@@ -110,27 +87,6 @@ namespace oculog.editor
             var savePath = $"{Application.persistentDataPath}/{folderName}";
             EditorGUILayout.HelpBox($"Your data will be exported to:\n" +
                                     $"{savePath}", MessageType.None);
-        }
-
-        private void DrawAPISettings(IEnumerator enumerator, string apiName)
-        {
-            if (apiName == "OpenVR")
-            {
-                EditorGUILayout.HelpBox("This API has not yet been implemented as the current state of " +
-                                        "the project is only a proof of concept.\nThe feature will be implemented in the future!",
-                    MessageType.Error);
-                return;
-            }
-            
-            EditorGUILayout.HelpBox($"Remember that for the API specific tracking to work, you'll need the " +
-                                    $"{apiName} package installed in your project", MessageType.Info);
-            
-            
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current as SerializedProperty;
-                EditorGUILayout.PropertyField(current);
-            }
         }
     }
 }

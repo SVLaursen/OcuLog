@@ -9,9 +9,7 @@ namespace oculog.LogSettings
     public class LogMasterSettings : ScriptableObject
     {
         //Basic Must Have Settings
-        public ETargetApi platform;
-        public OculusSettings oculusSettings;
-        public OpenVRSettings openVRSettings;
+        
         
         //Application Tracking Settings
         public bool trackFps;
@@ -28,32 +26,9 @@ namespace oculog.LogSettings
         public Action<DataEntry> OnLogFPS;
 
         private float _fpsTime;
-        private ApiTarget _targetApi;
-
-        public void Init()
-        {
-            switch (platform)
-            {
-                case ETargetApi.None:
-                    _targetApi = null;
-                    break;
-                case ETargetApi.Oculus:
-                    _targetApi = oculusSettings;
-                    break;
-                case ETargetApi.OpenVR:
-                    _targetApi = openVRSettings;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            _targetApi?.Init();
-        }
         
         public void Tick()
         {
-            _targetApi?.Tick();
-            
             if(trackFps && !trackInIntervals)
                 LogFps();
         }

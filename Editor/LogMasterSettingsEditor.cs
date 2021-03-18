@@ -44,7 +44,7 @@ namespace oculog.editor
             _target.trackFps = EditorGUILayout.BeginToggleGroup("Toggle FPS Tracking", _target.trackFps);
             
             EditorGUI.indentLevel++;
-            _target.trackInIntervals = EditorGUILayout.BeginToggleGroup("Track Every Frame", _target.trackInIntervals);
+            _target.trackInIntervals = EditorGUILayout.BeginToggleGroup("Track In Intervals", _target.trackInIntervals);
             EditorGUI.indentLevel++;
             _target.trackingInterval = EditorGUILayout.Slider("Tracking Interval",_target.trackingInterval, 0.0f, 1.0f);
 

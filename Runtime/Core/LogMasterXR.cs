@@ -42,7 +42,16 @@ namespace oculog.Core
             meshCollider.sharedMesh = guardianMesh;
             meshCollider.convex = true;
             meshCollider.isTrigger = true;
+            guardianArea.Level = ELogLevel.Error;
             guardianArea.OnDataLogged += DataLogger.LogEntry;
+
+            var warningObj = Instantiate(guardianObj, transform.position, Quaternion.identity);
+            var warningScale = warningObj.transform.localScale;
+            
+            warningObj.transform.localScale = new Vector3(warningScale.x - 0.2f, warningScale.y, warningScale.z - 0.2f);
+            var warningGuardian = warningObj.GetComponent<GuardianArea>();
+            warningGuardian.Level = ELogLevel.Warning;
+            warningGuardian.OnDataLogged += DataLogger.LogEntry;
         }
 
         private void ActivateButtonTracking()
@@ -103,8 +112,8 @@ namespace oculog.Core
 
             if (trackRightControllerRotation)
             {
-                var rotVal = _leftController.transform.rotation.ToString();
-                var entry = new DataEntry("left-controller-rotation", rotVal, timeStamp);
+                var rotVal = _rightController.transform.rotation.ToString();
+                var entry = new DataEntry("right-controller-rotation", rotVal, timeStamp);
                 DataLogger.LogEntry(entry);
             }
         }

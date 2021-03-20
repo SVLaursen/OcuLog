@@ -95,16 +95,21 @@ namespace oculog.editor
             _target.trackControllers =
                 EditorGUILayout.BeginToggleGroup("Use Controller Tracking", _target.trackControllers);
             EditorGUI.indentLevel++;
-            
+
+            GUI.enabled = false; //TODO: Figure out what goes wrong here before turning it back on
             _target.useIntervalController =
                 EditorGUILayout.BeginToggleGroup("Use Interval Tracking", _target.useIntervalController);
             EditorGUI.indentLevel++;
             _target.controllerInterval = EditorGUILayout.FloatField("Interval", _target.controllerInterval);
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
+            GUI.enabled = true;
+            
+            LeftAndRightFields("Controller Velocities", ref _target.trackLeftControllerVelocity,
+                ref _target.trackRightControllerVelocity);
 
             LeftAndRightFields("Controller Rotations", ref _target.trackLeftControllerRotation, 
-                ref _target. trackRightControllerRotation);
+                ref _target.trackRightControllerRotation);
             
             LeftAndRightFields("Controller Positions", ref _target.trackLeftControllerPosition, 
                 ref _target.trackRightControllerPosition);
@@ -116,12 +121,15 @@ namespace oculog.editor
             _target.trackHmd = EditorGUILayout.BeginToggleGroup("Track Head Mounted Display", _target.trackHmd);
             EditorGUI.indentLevel++;
 
+            GUI.enabled = false; //TODO: Figure out what goes wrong here before turning it back on
             _target.useIntervalHmd = EditorGUILayout.BeginToggleGroup("Use Interval Tracking", _target.useIntervalHmd);
             EditorGUI.indentLevel++;
             _target.hmdInterval = EditorGUILayout.FloatField("Interval", _target.hmdInterval);
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
+            GUI.enabled = true;
 
+            _target.trackHmdVelocity = EditorGUILayout.Toggle("Track Velocity", _target.trackHmdVelocity);
             _target.trackHmdPosition = EditorGUILayout.Toggle("Track Position", _target.trackHmdPosition);
             _target.trackHmdRotation = EditorGUILayout.Toggle("Track Rotation", _target.trackHmdRotation);
             
@@ -135,13 +143,19 @@ namespace oculog.editor
         {
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
-
+            //EditorGUI.indentLevel++;
             EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField("L", GUILayout.Width(25));
+            leftField = EditorGUILayout.Toggle(leftField, GUILayout.Width(25));
             
-            leftField = EditorGUILayout.Toggle("L", leftField);
-            rightField = EditorGUILayout.Toggle("R", rightField);
-            //GUILayout.FlexibleSpace();
+            GUILayout.Space(25);
+            
+            EditorGUILayout.LabelField("R", GUILayout.Width(25));
+            rightField = EditorGUILayout.Toggle(rightField, GUILayout.Width(25));
+            
             EditorGUILayout.EndHorizontal();
+            //EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();
         }
     }

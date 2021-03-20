@@ -10,6 +10,8 @@ namespace oculog.Core
      */
     public partial class LogMaster
     {
+        private bool _exportPerformed;
+        
         private void OnEnable()
         {
             DataLogger.Init();
@@ -33,6 +35,11 @@ namespace oculog.Core
         
         private void Awake() => CheckAndInitXR();
 
+        private void OnApplicationQuit()
+        {
+            PerformExport();
+        }
+
         private void Update()
         {
             settings.Tick();
@@ -43,7 +50,7 @@ namespace oculog.Core
         {
             while (Application.isPlaying)
             {
-                onInterval.Invoke();
+                onInterval?.Invoke();
                 yield return new WaitForSeconds(waitTime);
             }
         }
@@ -57,6 +64,7 @@ namespace oculog.Core
         
         private void PerformExport()
         {
+            if (_exportPerformed) return;
             if (settings.exportType == EExportType.None)
             {
 #if UNITY_EDITOR
@@ -70,6 +78,8 @@ namespace oculog.Core
                 DataExporter.ExportData(settings.exportType, containers, settings.customFolderName);
             else 
                 DataExporter.ExportData(settings.exportType, containers);
+
+            _exportPerformed = true;
         }
     }
 }

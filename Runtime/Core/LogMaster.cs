@@ -43,6 +43,9 @@ namespace oculog.Core
         public bool useIntervalController;
         public float controllerInterval;
 
+        public bool trackLeftControllerVelocity;
+        public bool trackRightControllerVelocity;
+        
         public bool trackLeftControllerRotation;
         public bool trackRightControllerRotation;
 
@@ -55,6 +58,7 @@ namespace oculog.Core
         public bool useIntervalHmd;
         public float hmdInterval;
 
+        public bool trackHmdVelocity;
         public bool trackHmdPosition;
         public bool trackHmdRotation;
 

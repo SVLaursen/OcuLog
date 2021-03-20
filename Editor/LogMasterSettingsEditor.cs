@@ -33,6 +33,11 @@ namespace oculog.editor
             serializedObject.ApplyModifiedProperties();
         }
 
+        private void OnDisable()
+        {
+            serializedObject.ApplyModifiedProperties();
+        }
+
         private void DrawApplicationTrackingFields()
         {
             EditorGUILayout.Separator();
@@ -43,6 +48,7 @@ namespace oculog.editor
 
             _target.trackFps = EditorGUILayout.BeginToggleGroup("Toggle FPS Tracking", _target.trackFps);
             
+            GUI.enabled = false; //TODO: Figure out what goes wrong here before turning it back on
             EditorGUI.indentLevel++;
             _target.trackInIntervals = EditorGUILayout.BeginToggleGroup("Track In Intervals", _target.trackInIntervals);
             EditorGUI.indentLevel++;
@@ -51,6 +57,7 @@ namespace oculog.editor
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
             EditorGUI.indentLevel--;
+            GUI.enabled = true;
             
             EditorGUILayout.Separator();
             

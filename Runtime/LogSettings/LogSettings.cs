@@ -22,5 +22,11 @@ namespace oculog.LogSettings
             var entry = new DataEntry($"{logId}-{propertyName}", value.ToString(), Time.time);
             OnEmit.Invoke(entry);
         }
+
+        protected void Log<T>(T value, string propertyName)
+        {
+            var entry = new DataEntry($"{logId}-{propertyName}", value.ToString(), Time.time);
+            OnEmit.Invoke(entry);
+        }
     }
 }

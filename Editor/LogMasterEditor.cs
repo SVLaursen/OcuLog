@@ -74,9 +74,6 @@ namespace oculog.editor
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
 
-            EditorGUILayout.HelpBox("Input tracking is still in development", MessageType.Info);
-            GUI.enabled = false;
-            
             //Input Fields
             _target.trackButtonInputs = EditorGUILayout.BeginToggleGroup("Button Tracking", _target.trackButtonInputs);
             EditorGUI.indentLevel++;
@@ -85,12 +82,11 @@ namespace oculog.editor
             LeftAndRightFields("Controller Grips", ref _target.trackLeftGrip, ref _target.trackRightGrip);
             LeftAndRightFields("Controller Face Buttons", ref _target.trackLeftFaceButtons, ref _target.trackRightFaceButtons);
             LeftAndRightFields("Controller Joysticks", ref _target.trackLeftJoystick, ref _target.trackRightJoystick);
+            LeftAndRightFields("Controller Battery", ref _target.trackLeftBattery, ref _target.trackRightBattery);
             
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
 
-            GUI.enabled = true;
-            
             //Controller Fields
             _target.trackControllers =
                 EditorGUILayout.BeginToggleGroup("Use Controller Tracking", _target.trackControllers);

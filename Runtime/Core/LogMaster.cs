@@ -12,7 +12,7 @@ namespace oculog.Core
     public partial class LogMaster : MonoBehaviour
     {
         //General Settings (Fps tracking, etc.)
-        [SerializeField] private LogMasterSettings settings;
+        public LogMasterSettings settings;
         
         //Unity XR Specifics
         public bool useXR;
@@ -33,9 +33,12 @@ namespace oculog.Core
 
         public bool trackLeftFaceButtons;
         public bool trackRightFaceButtons;
-
+        
         public bool trackLeftJoystick;
         public bool trackRightJoystick;
+
+        public bool trackLeftBattery;
+        public bool trackRightBattery;
 
         //Controllers
         public bool trackControllers;

@@ -60,7 +60,19 @@ namespace oculog.Core
 
         private void ActivateButtonTracking()
         {
+            if (_leftController == null)
+                _leftController = GameObject.Find("LeftHand Controller");
+            if (_rightController == null)
+                _rightController = GameObject.Find("RightHand Controller");
+
+            var leftXR = _leftController.AddComponent<XRInputLogger>();
+            var rightXR = _rightController.AddComponent<XRInputLogger>();
+
+            leftXR.ID = "LeftHand";
+            rightXR.ID = "RightHand";
             
+            leftXR.Initialize(trackLeftTrigger, trackLeftGrip,  trackLeftJoystick, trackLeftBattery, trackLeftFaceButtons);
+            rightXR.Initialize(trackRightTrigger, trackRightGrip, trackRightJoystick, trackRightBattery, trackRightFaceButtons);
         }
 
         private void ActivateControllerTracking()

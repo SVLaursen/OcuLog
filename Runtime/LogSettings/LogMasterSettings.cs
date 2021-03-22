@@ -8,9 +8,6 @@ namespace oculog.LogSettings
     [CreateAssetMenu(menuName = "Oculog/LogMaster Settings")]
     public class LogMasterSettings : ScriptableObject
     {
-        //Basic Must Have Settings
-        
-        
         //Application Tracking Settings
         public bool trackFps;
         public bool trackInIntervals;

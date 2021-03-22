@@ -10,26 +10,18 @@ namespace oculog.Core
     public partial class LogMaster
     {
         private Camera _hmdCam;
-        private GameObject _leftController;
-        private GameObject _rightController;
 
-        private Vector3 _previousLeftPosition;
-        private Vector3 _previousRightPosition;
         private Vector3 _previousHmdPosition;
 
         private void CheckAndInitXR()
         {
             if (enableGuardian)
                 ActivateGuardianTracking();
-            
-            if(trackButtonInputs)
-                ActivateButtonTracking();
-            
-            if(trackControllers)
-                ActivateControllerTracking();
-            
+
             if(trackHmd)
                 ActivateHmdTracking();
+            
+            ActivateControllers();
         }
         
         private void ActivateGuardianTracking()
@@ -58,103 +50,21 @@ namespace oculog.Core
             warningGuardian.OnDataLogged += DataLogger.LogEntry;
         }
 
-        private void ActivateButtonTracking()
+        private void ActivateControllers()
         {
-            if (_leftController == null)
-                _leftController = GameObject.Find("LeftHand Controller");
-            if (_rightController == null)
-                _rightController = GameObject.Find("RightHand Controller");
-
-            var leftXR = _leftController.AddComponent<XRInputLogger>();
-            var rightXR = _rightController.AddComponent<XRInputLogger>();
-
-            leftXR.ID = "LeftHand";
-            rightXR.ID = "RightHand";
+            if(leftController.logMovement || leftController.logButtonInputs)
+                ActivateController("LeftHand Controller", "LeftController", leftController);
             
-            leftXR.Initialize(trackLeftTrigger, trackLeftGrip,  trackLeftJoystick, trackLeftBattery, trackLeftFaceButtons);
-            rightXR.Initialize(trackRightTrigger, trackRightGrip, trackRightJoystick, trackRightBattery, trackRightFaceButtons);
+            if(rightController.logMovement || rightController.logButtonInputs)
+                ActivateController("RightHand Controller", "RightController", rightController);
         }
 
-        private void ActivateControllerTracking()
+        private void ActivateController(string controllerName, string id, XRControllerData data)
         {
-            if(trackLeftControllerPosition || trackLeftControllerRotation)
-                _leftController = GameObject.Find("LeftHand Controller");
-            if(trackRightControllerPosition || trackRightControllerRotation)
-                _rightController = GameObject.Find("RightHand Controller");
-
-            var leftColl = _leftController.AddComponent<SphereCollider>();
-            var rightColl = _rightController.AddComponent<SphereCollider>();
-            var leftRb = _leftController.AddComponent<Rigidbody>();
-            var rightRb = _rightController.AddComponent<Rigidbody>();
-
-            leftRb.isKinematic = true;
-            leftRb.useGravity = false;
-            rightRb.isKinematic = true;
-            rightRb.useGravity = false;
-
-            leftColl.radius = 0.15f;
-            rightColl.radius = 0.15f;
-
-            _previousLeftPosition = _leftController.transform.position;
-            _previousRightPosition = _rightController.transform.position;
-
-            if (useIntervalController)
-                StartCoroutine(IntervalLogging(controllerInterval, TrackControllers));
-            else
-                _onTickLog += TrackControllers;
-        }
-
-        private void TrackControllers()
-        {
-            var timeStamp = Time.time;
-
-            if (trackLeftControllerVelocity)
-            {
-                var currentPosition = _leftController.transform.position;
-                var velocity = CalculateVelocity(currentPosition, _previousLeftPosition);
-                var entry = new DataEntry("left-controller-velocity", velocity.ToString(), timeStamp);
-                
-                DataLogger.LogEntry(entry);
-                _previousLeftPosition = currentPosition;
-            }
-            
-            if (trackLeftControllerPosition)
-            {
-                var posVal = _leftController.transform.position.ToString();
-                var entry = new DataEntry("left-controller-position", posVal, timeStamp);
-                DataLogger.LogEntry(entry);
-            }
-
-            if (trackLeftControllerRotation)
-            {
-                var rotVal = _leftController.transform.rotation.ToString();
-                var entry = new DataEntry("left-controller-rotation", rotVal, timeStamp);
-                DataLogger.LogEntry(entry);
-            }
-
-            if (trackRightControllerVelocity)
-            {
-                var currentPosition = _rightController.transform.position;
-                var velocity = CalculateVelocity(currentPosition, _previousRightPosition);
-                var entry = new DataEntry("right-controller-velocity", velocity.ToString(), timeStamp);
-                
-                DataLogger.LogEntry(entry);
-                _previousRightPosition = currentPosition;
-            }
-
-            if (trackRightControllerPosition)
-            {
-                var posVal = _rightController.transform.position.ToString();
-                var entry = new DataEntry("right-controller-position", posVal, timeStamp);
-                DataLogger.LogEntry(entry);
-            }
-
-            if (trackRightControllerRotation)
-            {
-                var rotVal = _rightController.transform.rotation.ToString();
-                var entry = new DataEntry("right-controller-rotation", rotVal, timeStamp);
-                DataLogger.LogEntry(entry);
-            }
+            var controller = GameObject.Find(controllerName);
+            var controllerXR = controller.AddComponent<XRControllerLogger>();
+            controllerXR.ID = id;
+            controllerXR.Initialize(data);
         }
 
         private void ActivateHmdTracking()
@@ -169,11 +79,7 @@ namespace oculog.Core
             hmdColl.radius = 0.1f;
 
             _previousHmdPosition = _hmdCam.transform.position;
-
-            if (useIntervalHmd)
-                StartCoroutine(IntervalLogging(hmdInterval, HmdTracking));
-            else
-                _onTickLog += HmdTracking;
+            _onTickLog += HmdTracking;
         }
 
         private void HmdTracking()

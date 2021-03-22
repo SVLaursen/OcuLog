@@ -22,44 +22,12 @@ namespace oculog.Core
         public int guardianIterations;
         public float guardianHeight;
         
-        //Button Inputs
-        public bool trackButtonInputs;
-
-        public bool trackLeftTrigger;
-        public bool trackRightTrigger;
-
-        public bool trackLeftGrip;
-        public bool trackRightGrip;
-
-        public bool trackLeftFaceButtons;
-        public bool trackRightFaceButtons;
-        
-        public bool trackLeftJoystick;
-        public bool trackRightJoystick;
-
-        public bool trackLeftBattery;
-        public bool trackRightBattery;
-
         //Controllers
-        public bool trackControllers;
-
-        public bool useIntervalController;
-        public float controllerInterval;
-
-        public bool trackLeftControllerVelocity;
-        public bool trackRightControllerVelocity;
-        
-        public bool trackLeftControllerRotation;
-        public bool trackRightControllerRotation;
-
-        public bool trackLeftControllerPosition;
-        public bool trackRightControllerPosition;
+        public XRControllerData leftController;
+        public XRControllerData rightController;
 
         //HMD
         public bool trackHmd;
-
-        public bool useIntervalHmd;
-        public float hmdInterval;
 
         public bool trackHmdVelocity;
         public bool trackHmdPosition;

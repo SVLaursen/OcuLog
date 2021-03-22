@@ -73,57 +73,10 @@ namespace oculog.editor
             _target.guardianHeight = EditorGUILayout.FloatField("Guardian Height", _target.guardianHeight);
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
-
-            //Input Fields
-            _target.trackButtonInputs = EditorGUILayout.BeginToggleGroup("Button Tracking", _target.trackButtonInputs);
-            EditorGUI.indentLevel++;
-
-            LeftAndRightFields("Controller Triggers", ref _target.trackLeftTrigger, ref _target.trackRightTrigger);
-            LeftAndRightFields("Controller Grips", ref _target.trackLeftGrip, ref _target.trackRightGrip);
-            LeftAndRightFields("Controller Face Buttons", ref _target.trackLeftFaceButtons, ref _target.trackRightFaceButtons);
-            LeftAndRightFields("Controller Joysticks", ref _target.trackLeftJoystick, ref _target.trackRightJoystick);
-            LeftAndRightFields("Controller Battery", ref _target.trackLeftBattery, ref _target.trackRightBattery);
-            
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndToggleGroup();
-
-            //Controller Fields
-            _target.trackControllers =
-                EditorGUILayout.BeginToggleGroup("Use Controller Tracking", _target.trackControllers);
-            EditorGUI.indentLevel++;
-
-            GUI.enabled = false; //TODO: Figure out what goes wrong here before turning it back on
-            _target.useIntervalController =
-                EditorGUILayout.BeginToggleGroup("Use Interval Tracking", _target.useIntervalController);
-            EditorGUI.indentLevel++;
-            _target.controllerInterval = EditorGUILayout.FloatField("Interval", _target.controllerInterval);
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndToggleGroup();
-            GUI.enabled = true;
-            
-            LeftAndRightFields("Controller Velocities", ref _target.trackLeftControllerVelocity,
-                ref _target.trackRightControllerVelocity);
-
-            LeftAndRightFields("Controller Rotations", ref _target.trackLeftControllerRotation, 
-                ref _target.trackRightControllerRotation);
-            
-            LeftAndRightFields("Controller Positions", ref _target.trackLeftControllerPosition, 
-                ref _target.trackRightControllerPosition);
-
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndToggleGroup();
             
             //HMD Fields
             _target.trackHmd = EditorGUILayout.BeginToggleGroup("Track Head Mounted Display", _target.trackHmd);
             EditorGUI.indentLevel++;
-
-            GUI.enabled = false; //TODO: Figure out what goes wrong here before turning it back on
-            _target.useIntervalHmd = EditorGUILayout.BeginToggleGroup("Use Interval Tracking", _target.useIntervalHmd);
-            EditorGUI.indentLevel++;
-            _target.hmdInterval = EditorGUILayout.FloatField("Interval", _target.hmdInterval);
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndToggleGroup();
-            GUI.enabled = true;
 
             _target.trackHmdVelocity = EditorGUILayout.Toggle("Track Velocity", _target.trackHmdVelocity);
             _target.trackHmdPosition = EditorGUILayout.Toggle("Track Position", _target.trackHmdPosition);
@@ -133,6 +86,13 @@ namespace oculog.editor
             EditorGUILayout.EndToggleGroup();
             
             EditorGUILayout.EndToggleGroup();
+
+            //Controller Fields
+            var label = new GUIContent("Left Controller");
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("leftController"), label);
+            
+            label.text = "Right Controller";
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("rightController"), label);
         }
 
         private void LeftAndRightFields(string label, ref bool leftField, ref bool rightField)

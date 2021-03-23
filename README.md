@@ -56,6 +56,7 @@ Currently the LogMaster supports the following properties to be tracked:
 | Trigger Input | Notes when the button is pressed and released | Controllers |
 | Grip Input    | Notes when the button is pressed and released | Controllers |
 | Face Buttons  | Notes when the A and B buttons are pressed and released | Controllers |
+| Joystick      | Notes the vector of the joystick and if the joystick has been pressed | Controllers |
 --------------------------
 A quick note about the guardian tracking; it has only been tested on Oculus devices and therefore we can only assure you that it works on this platform.
 

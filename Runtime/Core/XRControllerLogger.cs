@@ -195,10 +195,11 @@ namespace oculog.Core
             if (!_controller.inputDevice.TryGetFeatureValue(CommonUsages.isTracked, out var status)) return;
             if (_prevTracking && status || !_prevTracking && !status) return;
             
-            var value = status ? "regained" : "lost";
+            var value = status ? "tracking" : "lost";
+            var logLevel = status ? ELogLevel.Default : ELogLevel.Error;
             _prevTracking = status;
             
-            var entry = new DataEntry($"{ID}-trackin-loss", value, Time.time);
+            var entry = new DataEntry($"{ID}-trackin-loss", value, Time.time, logLevel);
             DataLogger.LogEntry(entry);
         }
     }

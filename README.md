@@ -1,6 +1,6 @@
-<center>
-<img src="./Resources/Logo.png" width=640>
-</center>
+<p align="center">
+  <img src="./Resources/Logo.png" width=640>
+</p>
 
 # OcuLog - Unity Plugin
 OcuLog is a Unity plugin package made for Unity 2020.1 and up. It provides you with tracking and logging of game objects within your scene, and/or direct tracking of your preffered VR headset and controllers through the Unity XR Toolkit.
@@ -30,7 +30,7 @@ Once you've done this it is a very good idea to navigate into the *OcuLog* folde
 The LogMaster component is the brain behind the operation. It handles the initialization of the DataLogger hidden behind the curtains and also comes with the ability to track FPS, Unity XR API, and selecting the format in which way you want your data exported. 
 
 #### **ScriptableObject Settings - LogMasterSettings**
-<img src="./Resources/LogMasterSettings.png" width=360 align="left" >
+<img src="./Resources/LogMasterSettings.PNG" width=360 align="left" >
 
 The settings object for the LogMaster allows FPS tracking with error/warning messages, allowing you to decide when you think that the framerate is hitting a point that you want to mark as either a warning or error value.
 

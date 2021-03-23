@@ -10,6 +10,8 @@ OcuLog is a Unity plugin package made for Unity 2020.1 and up. It provides you w
 ## Installation
 <img src="./Resources/Package_Install.png" width=400 align="right">
 
+>NOTE: Since the repository is currently private, the only way of installing is by downloading this repository and choosing the "*Add package from disk...*" option in the package manager inside your project.
+
 The installation of OcuLog is done through the Unity Package Manager. All you have to do is navigate to the package manager window in your current project, and click the plus sign in the upper right corner. From there select the *"add package from git url..."* option and paste in the url for this repository.
 
 Once the package manager is done importing the you will be greeted by the OcuLog welcome screen. From here you have the option of doing a quick setup for your current scene. 

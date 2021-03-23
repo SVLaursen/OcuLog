@@ -31,6 +31,13 @@ namespace oculog.editor
             serializedObject.ApplyModifiedProperties();
         }
 
+        private void OnDisable()
+        {
+            EditorUtility.SetDirty(this);
+            EditorUtility.SetDirty(_target.settings);
+            EditorUtility.SetDirty(_currentSO);
+        }
+
         private void DrawScriptableObjectFields()
         {
             EditorGUILayout.BeginVertical("box");
@@ -49,6 +56,7 @@ namespace oculog.editor
             }
             
             _soEditor.OnInspectorGUI();
+            EditorUtility.SetDirty(_currentSO);
         }
 
         private void DrawXRFields()

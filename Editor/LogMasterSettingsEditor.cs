@@ -31,11 +31,15 @@ namespace oculog.editor
             DrawExportingFields();
 
             serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(this);
         }
-
+        
         private void OnDisable()
         {
-            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(_target);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         private void DrawApplicationTrackingFields()

@@ -15,7 +15,7 @@ namespace oculog.Core
 
         private XRControllerData _settings;
 
-        private bool _prevTrigger, _prevGrip, _prevJoystickClick, _prevABtn, _prevBBtn;
+        private bool _prevTrigger, _prevGrip, _prevJoystickClick, _prevABtn, _prevBBtn, _prevTracking;
         
         private XRController _controller;
 
@@ -46,8 +46,9 @@ namespace oculog.Core
                 if (settings.acceleration)
                     _logOnTick += TrackControllerAcceleration;
             }
-            
 
+            _logOnTick += LookForTrackingLoss;
+            
             _settings = settings;
             _controller = GetComponent<XRController>();
         }
@@ -78,6 +79,8 @@ namespace oculog.Core
                 if (_settings.faceButtons)
                     _logOnTick -= TrackFaceButtons;
             }
+
+            _logOnTick -= LookForTrackingLoss;
 
             if (!_settings.logMovement) return;
             if (_settings.position)
@@ -149,7 +152,7 @@ namespace oculog.Core
 
             if (!_controller.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out var bClick)) return;
             {
-                if (_prevBBtn && !bClick || _prevBBtn && bClick) return;
+                if (!_prevBBtn && !bClick || _prevBBtn && bClick) return;
                 
                 var value = bClick ? "pressed" : "released";
                 _prevBBtn = bClick;
@@ -184,6 +187,18 @@ namespace oculog.Core
         {
             if (!_controller.inputDevice.TryGetFeatureValue(CommonUsages.deviceAcceleration, out var value)) return;
             var entry = new DataEntry($"{ID}-acceleration", value.ToString(), Time.time);
+            DataLogger.LogEntry(entry);
+        }
+
+        private void LookForTrackingLoss()
+        {
+            if (!_controller.inputDevice.TryGetFeatureValue(CommonUsages.isTracked, out var status)) return;
+            if (_prevTracking && status || !_prevTracking && !status) return;
+            
+            var value = status ? "regained" : "lost";
+            _prevTracking = status;
+            
+            var entry = new DataEntry($"{ID}-trackin-loss", value, Time.time);
             DataLogger.LogEntry(entry);
         }
     }

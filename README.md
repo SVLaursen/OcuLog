@@ -93,6 +93,3 @@ The last option of LoggerComponent settings is the trigger settings object. This
 The additional setup just requires you to attach a collider and scale it to the desired radius or size that you want. Remember to set the collider's trigger option to true. The component also needs to have a counterpart that contains a RigidBody component or that the trigger has a RigidBody itself that is set to kinematic and not using gravity.
 
 This specific setting is useful for tracking interactions between objects. The way that the trigger works is by logging down what object just interacted with it and at what time. 
-
-## API
->Documentation coming soon...

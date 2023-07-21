@@ -2,6 +2,8 @@
   <img src="./Resources/Logo.png" width=640>
 </p>
 
+> BE AWARE: OcuLog was created as a logging plugin for VR projects at Aalborg University back in 2021. The plugin has since then gone out of support. The reason for the project now becoming open-source is to allow any interested parties to continue the development on the project on their own time.
+
 # OcuLog - Unity Plugin
 OcuLog is a Unity plugin package made for Unity 2020.1 and up. It provides you with tracking and logging of game objects within your scene, and/or direct tracking of your preffered VR headset and controllers through the Unity XR Toolkit.
 
